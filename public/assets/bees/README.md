@@ -2,13 +2,11 @@
 
 Initial art direction for the bee-colony tower defense.
 
-Committed binary preview:
-- worker-bee.webp — optimized 128x128 WebP preview generated from the initial worker bee concept art.
+Assets:
+- worker-bee.webp — worker honey bee preview.
+- guard-bee.webp — defensive guard bee preview.
+- queen-bee.webp — queen bee preview.
+- hive.webp — hive/base structure preview.
+- nectar-resource.webp — floral nectar resource preview.
 
-Generated concepts waiting for binary upload in separate commits:
-- guard-bee
-- queen-bee
-- hive
-- nectar-resource
-
-The game art direction uses stylized 3D honey bees, wax/honey structures and floral nectar resources.
+These are lightweight web previews derived from the generated concept art. Higher-resolution source concepts should be retained separately for later production asset work.
