@@ -1,57 +1,186 @@
 :root {
-  font-family:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: #f3f5ef;
-  background: #111318;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #f8efcf;
+  background: #0e120d;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-html,
-body,
-#root {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-}
-
-button {
-  color: inherit;
-  border: 1px solid #4e5b42;
-  border-radius: 8px;
-  background: #283023;
-  padding: 8px 12px;
-  cursor: pointer;
-}
+* { box-sizing: border-box; }
+html, body, #root { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+button { font: inherit; }
 
 .app-shell {
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: 56px 1fr 170px 26px;
+  background: radial-gradient(circle at 50% 20%, #253422, #0e120d 72%);
 }
 
-.hud {
-  min-height: 58px;
-  display: flex;
+.topbar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 10px 18px;
-  background: #171b18;
-  border-bottom: 1px solid #30382c;
+  padding: 0 16px;
+  border-bottom: 1px solid #7d5b17;
+  background: linear-gradient(180deg, #171b14, #10130f);
+  box-shadow: 0 8px 24px #0008;
+  z-index: 10;
 }
 
-.hud-actions {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+.brand { display: flex; align-items: baseline; gap: 10px; }
+.brand strong { letter-spacing: .16em; color: #ffc93c; }
+.brand span { color: #999f8c; font-size: 12px; }
+.resources { display: flex; gap: 22px; padding: 8px 20px; border: 1px solid #5f4818; background: #0b0e0b; border-radius: 6px; }
+.top-actions { display: flex; justify-content: flex-end; align-items: center; gap: 8px; }
+.top-actions button, .commands button, .clear-selection {
+  color: #f8efcf;
+  border: 1px solid #6f561c;
+  background: linear-gradient(#302714, #18160f);
+  border-radius: 5px;
+  cursor: pointer;
+}
+.top-actions button { padding: 7px 10px; }
+.top-actions button:hover, .commands button:hover { border-color: #d6a62d; background: #403017; }
+
+.playfield { min-height: 0; position: relative; overflow: hidden; }
+.game-canvas { width: 100%; height: 100%; }
+
+.objectives {
+  position: absolute;
+  z-index: 5;
+  top: 14px;
+  left: 14px;
+  width: 245px;
+  padding: 12px 14px;
+  background: #10130fe8;
+  border: 1px solid #69501d;
+  border-radius: 6px;
+  box-shadow: 0 10px 30px #0008;
+}
+.objectives h3 { margin: 0 0 10px; color: #ffc93c; font-size: 13px; letter-spacing: .08em; }
+.objectives label { display: block; margin: 7px 0; font-size: 13px; }
+.objectives input { accent-color: #ffc93c; }
+.wave { margin-top: 10px; color: #e09e75; font-size: 12px; }
+
+.build-hint {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  padding: 8px 12px;
+  background: #17120ce8;
+  border: 1px solid #c58b22;
+  border-radius: 6px;
+  font-size: 12px;
 }
 
-.game-canvas {
+.command-panel {
   min-height: 0;
+  display: grid;
+  grid-template-columns: 260px minmax(320px, 1fr) 500px;
+  gap: 8px;
+  padding: 8px;
+  border-top: 2px solid #5f4617;
+  background: linear-gradient(180deg, #151813, #0c0f0c);
+  box-shadow: 0 -12px 30px #0008;
+}
+
+.minimap, .selection-card, .commands {
+  border: 1px solid #574419;
+  background: #0a0c0a;
+  border-radius: 5px;
+}
+
+.minimap { padding: 8px; }
+.mini-grid {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(circle at 30% 50%, #52663c 0 8%, transparent 9%),
+    radial-gradient(circle at 72% 32%, #2f4d2a 0 10%, transparent 11%),
+    #172016;
+  overflow: hidden;
+}
+.mini-grid i { position: absolute; width: 8px; height: 8px; border-radius: 50%; }
+.mini-base { left: 48%; top: 48%; background: #ffd43b; }
+.mini-resource { background: #b768ff; }
+.mini-resource.one { left: 18%; top: 32%; }
+.mini-resource.two { left: 20%; top: 67%; }
+.mini-resource.three { right: 18%; top: 24%; }
+.mini-enemy { right: 9%; bottom: 18%; background: #ff4d3e; box-shadow: 0 0 10px #ff2717; }
+
+.selection-card {
+  display: grid;
+  grid-template-columns: 120px 1fr 34px;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+}
+.selection-card img { width: 110px; height: 110px; object-fit: contain; background: radial-gradient(circle, #37280f, transparent 70%); }
+.selection-card strong { display: block; color: #ffe27a; margin-bottom: 5px; }
+.selection-card span, .selection-card small { color: #aeb49d; display: block; }
+.healthbar { height: 10px; background: #2c1c16; border: 1px solid #4b3324; margin: 10px 0 8px; }
+.healthbar span { height: 100%; background: linear-gradient(90deg, #3c9b3a, #78d94f); }
+.clear-selection { align-self: start; height: 30px; }
+.empty-selection { grid-column: 1 / -1; padding: 20px; }
+
+.commands {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  padding: 8px;
+}
+.commands button {
+  min-width: 0;
+  display: grid;
+  grid-template-rows: 1fr auto auto;
+  place-items: center;
+  gap: 2px;
+  padding: 5px;
+}
+.commands button.active { outline: 2px solid #ffd43b; background: #493615; }
+.commands img { width: 60px; height: 60px; object-fit: contain; }
+.commands span { font-size: 12px; color: #ffe27a; }
+.commands small { font-size: 10px; color: #a9a08b; }
+
+.status-line {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  background: #080a08;
+  border-top: 1px solid #282d24;
+  color: #9da58d;
+  font-size: 12px;
+}
+
+.world-label {
+  white-space: nowrap;
+  color: #ffe58a;
+  background: #11140fe8;
+  border: 1px solid #66501f;
+  border-radius: 4px;
+  padding: 3px 6px;
+  font-size: 10px;
+  pointer-events: none;
+}
+.world-label.nectar { color: #e1b1ff; }
+
+.enemy-health {
+  width: 38px;
+  height: 5px;
+  border: 1px solid #35100e;
+  background: #160807;
+}
+.enemy-health span { display: block; height: 100%; background: #d83b2f; }
+
+@media (max-width: 1050px) {
+  .command-panel { grid-template-columns: 180px 1fr 360px; }
+  .commands { grid-template-columns: repeat(3, 1fr); }
+  .commands img { width: 42px; height: 42px; }
+  .selection-card { grid-template-columns: 80px 1fr 30px; }
+  .selection-card img { width: 72px; height: 72px; }
 }
